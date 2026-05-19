@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from '../App';
 
 export default function PostDetail() {
@@ -11,7 +11,7 @@ export default function PostDetail() {
   const { user } = useAuth();
 
   useEffect(() => {
-    axios.get(`/api/posts/${id}`)
+    api.get(`/api/posts/${id}`)
       .then(res => setPost(res.data))
       .catch(() => navigate('/'))
       .finally(() => setLoading(false));
@@ -20,7 +20,7 @@ export default function PostDetail() {
   const handleDelete = async () => {
     if (!window.confirm('Delete this post?')) return;
     try {
-      await axios.delete(`/api/posts/${id}`, { data: { userId: user.id } });
+      await api.delete(`/api/posts/${id}`, { data: { userId: user.id } });
       navigate('/');
     } catch (err) {
       alert(err.response?.data?.message || 'Delete failed');

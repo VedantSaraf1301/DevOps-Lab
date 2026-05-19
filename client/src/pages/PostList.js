@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from '../App';
 
 export default function PostList() {
@@ -10,7 +10,7 @@ export default function PostList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('/api/posts')
+    api.get('/api/posts')
       .then(res => setPosts(res.data))
       .catch(err => console.error(err))
       .finally(() => setLoading(false));
@@ -20,7 +20,7 @@ export default function PostList() {
     e.stopPropagation();
     if (!window.confirm('Delete this post?')) return;
     try {
-      await axios.delete(`/api/posts/${postId}`, { data: { userId: user.id } });
+      await api.delete(`/api/posts/${postId}`, { data: { userId: user.id } });
       setPosts(posts.filter(p => p._id !== postId));
     } catch (err) {
       alert(err.response?.data?.message || 'Delete failed');

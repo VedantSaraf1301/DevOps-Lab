@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from '../App';
 
 export default function PostForm({ edit = false }) {
@@ -13,7 +13,7 @@ export default function PostForm({ edit = false }) {
 
   useEffect(() => {
     if (edit && id) {
-      axios.get(`/api/posts/${id}`)
+      api.get(`/api/posts/${id}`)
         .then(res => {
           if (res.data.author !== user.id) {
             navigate('/');
@@ -33,10 +33,10 @@ export default function PostForm({ edit = false }) {
     setLoading(true);
     try {
       if (edit) {
-        await axios.put(`/api/posts/${id}`, { ...form, userId: user.id });
+        await api.put(`/api/posts/${id}`, { ...form, userId: user.id });
         navigate(`/posts/${id}`);
       } else {
-        const res = await axios.post('/api/posts', {
+        const res = await api.post('/api/posts', {
           ...form,
           authorId: user.id,
           authorName: user.username,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from '../App';
 
 export default function Login() {
@@ -17,7 +17,7 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      const res = await axios.post('/api/auth/login', form);
+      const res = await api.post('/api/auth/login', form);
       login(res.data.user);
       navigate('/');
     } catch (err) {
