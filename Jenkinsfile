@@ -69,8 +69,9 @@ pipeline {
                 ]) {
                     dir('client') {
                         bat "npm install"
-                        bat "npm run build"
-                        bat "npx vercel deploy build/ --prod --token=%VERCEL_TOKEN%"
+                        bat "npx vercel pull --yes --environment=production --token=%VERCEL_TOKEN%"
+                        bat "npx vercel build --prod --token=%VERCEL_TOKEN%"
+                        bat "npx vercel deploy --prebuilt --prod --token=%VERCEL_TOKEN%"
                     }
                 }
             }
