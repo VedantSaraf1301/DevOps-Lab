@@ -25,7 +25,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv('sonarqube') {
-                    bat "%SCANNER_HOME%\\bin\\sonar-scanner.bat -Dsonar.projectKey=inkwell-blog -Dsonar.sources=blog-app/client/src,blog-app/server -Dsonar.projectName=InkwellBlog"
+                    bat "%SCANNER_HOME%\\bin\\sonar-scanner.bat -Dsonar.projectKey=inkwell-blog -Dsonar.sources=client/src,server -Dsonar.projectName=InkwellBlog"
                 }
             }
         }
@@ -40,10 +40,8 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
-                dir('blog-app') {
-                    bat "docker build -t ${IMAGE_SERVER}:latest ./server"
-                    bat "docker build -t ${IMAGE_CLIENT}:latest ./client"
-                }
+                bat "docker build -t ${IMAGE_SERVER}:latest ./server"
+                bat "docker build -t ${IMAGE_CLIENT}:latest ./client"
             }
         }
 
@@ -77,7 +75,7 @@ pipeline {
                     string(credentialsId: 'VERCEL_ORG_ID',     variable: 'VERCEL_ORG_ID'),
                     string(credentialsId: 'VERCEL_PROJECT_ID', variable: 'VERCEL_PROJECT_ID')
                 ]) {
-                    dir('blog-app/client') {
+                    dir('client') {
                         bat "npx vercel pull --yes --environment=production --token=%VERCEL_TOKEN%"
                         bat "npx vercel build --prod --token=%VERCEL_TOKEN%"
                         bat "npx vercel deploy --prebuilt --prod --token=%VERCEL_TOKEN%"
