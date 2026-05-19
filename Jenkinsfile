@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER = 'YOUR_DOCKERHUB_USERNAME'
+        DOCKERHUB_USER = 'vedantsaraf787'
         IMAGE_SERVER   = "${DOCKERHUB_USER}/inkwell-server"
         IMAGE_CLIENT   = "${DOCKERHUB_USER}/inkwell-client"
     }
