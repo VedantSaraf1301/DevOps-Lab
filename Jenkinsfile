@@ -33,7 +33,7 @@ pipeline {
         stage('OWASP Dependency Check') {
             steps {
                 withCredentials([string(credentialsId: 'NVD_API_KEY', variable: 'NVD_KEY')]) {
-                    dependencyCheck additionalArguments: '--scan ./ --format HTML --out dependency-check-report --nvdApiKey %NVD_KEY%', odcInstallation: 'dependency-check'
+                    dependencyCheck additionalArguments: '--scan ./ --format HTML --out dependency-check-report --nvdApiKey %NVD_KEY% --data C:\\jenkins-owasp-data', odcInstallation: 'dependency-check'
                 }
                 dependencyCheckPublisher pattern: 'dependency-check-report/dependency-check-report.html'
             }
