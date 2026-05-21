@@ -4,7 +4,7 @@ services:
   server:
     build:
       context: ./server
-    image: YOUR_DOCKERHUB_USERNAME/inkwell-server:latest
+    image: vedantsaraf787/inkwell-server:latest
     container_name: inkwell-server
     ports:
       - "5000:5000"
@@ -15,7 +15,7 @@ services:
   client:
     build:
       context: ./client
-    image: YOUR_DOCKERHUB_USERNAME/inkwell-client:latest
+    image: vedantsaraf787/inkwell-client:latest
     container_name: inkwell-client
     ports:
       - "80:80"
