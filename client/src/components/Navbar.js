@@ -19,7 +19,7 @@ export default function Navbar() {
       <div className="navbar-actions">
         {user ? (
           <>
-            <span className="nav-user">Hi, <strong>{user.username}</strong></span>
+            <span className="nav-user">Hello Good morning, <strong>{user.username}</strong></span>
             <button className="btn btn-primary" onClick={() => navigate('/new')}>+ New Post</button>
             <button className="btn btn-outline" onClick={handleLogout}>Logout</button>
           </>
