@@ -14,7 +14,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-        Ink<span>well</span>
+        Tred<span>Log</span>
       </div>
       <div className="navbar-actions">
         {user ? (
