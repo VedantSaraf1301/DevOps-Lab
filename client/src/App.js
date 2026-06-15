@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -9,9 +9,14 @@ import PostDetail from './pages/PostDetail';
 import PostForm from './pages/PostForm';
 
 export const AuthContext = createContext(null);
+export const ThemeContext = createContext(null);
 
 export function useAuth() {
   return useContext(AuthContext);
+}
+
+export function useTheme() {
+  return useContext(ThemeContext);
 }
 
 function PrivateRoute({ children }) {
@@ -35,22 +40,33 @@ export default function App() {
     localStorage.removeItem('blogUser');
   };
 
+  const [theme, setTheme] = useState(() => localStorage.getItem('blogTheme') || 'light');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('blogTheme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : 'light'));
+
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
-      <BrowserRouter>
-        <div className="app-container">
-          <Navbar />
-          <Routes>
-            <Route path="/login"  element={user ? <Navigate to="/" /> : <Login />} />
-            <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
-            <Route path="/" element={<PrivateRoute><PostList /></PrivateRoute>} />
-            <Route path="/posts/:id" element={<PrivateRoute><PostDetail /></PrivateRoute>} />
-            <Route path="/posts/:id/edit" element={<PrivateRoute><PostForm edit /></PrivateRoute>} />
-            <Route path="/new" element={<PrivateRoute><PostForm /></PrivateRoute>} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <BrowserRouter>
+          <div className="app-container">
+            <Navbar />
+            <Routes>
+              <Route path="/login"  element={user ? <Navigate to="/" /> : <Login />} />
+              <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
+              <Route path="/" element={<PrivateRoute><PostList /></PrivateRoute>} />
+              <Route path="/posts/:id" element={<PrivateRoute><PostDetail /></PrivateRoute>} />
+              <Route path="/posts/:id/edit" element={<PrivateRoute><PostForm edit /></PrivateRoute>} />
+              <Route path="/new" element={<PrivateRoute><PostForm /></PrivateRoute>} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </ThemeContext.Provider>
     </AuthContext.Provider>
   );
 }

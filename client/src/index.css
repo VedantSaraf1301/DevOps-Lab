@@ -16,12 +16,27 @@
   --font-sans: 'DM Sans', sans-serif;
 }
 
+[data-theme="dark"] {
+  --cream: #1c1815;
+  --paper: #23201c;
+  --warm-white: #262220;
+  --ink: #f3ece4;
+  --ink-light: #d6cdc3;
+  --ink-muted: #948576;
+  --rust: #e8703a;
+  --rust-light: #f08c5b;
+  --rust-pale: #3a2620;
+  --border: #38332e;
+  --shadow: rgba(0,0,0,0.4);
+}
+
 body {
   font-family: var(--font-sans);
-  background-color: var(--cream);
+  background-color: var(--border);
   color: var(--ink);
   line-height: 1.6;
   min-height: 100vh;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -332,3 +347,134 @@ a { color: inherit; text-decoration: none; }
   .navbar { padding: 0 1rem; }
   .navbar-brand { font-size: 1.3rem; }
 }
+
+/* Icon button (theme toggle, comment delete) */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-light);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn-icon:hover { background: var(--paper); color: var(--rust); border-color: var(--ink-muted); }
+
+/* Search bar */
+.search-bar {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-muted);
+  pointer-events: none;
+}
+.search-input { padding-left: 2.6rem; }
+
+/* Tag chips */
+.tag-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-light);
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  text-transform: capitalize;
+}
+.tag-chip:hover { border-color: var(--rust); color: var(--rust); }
+.tag-chip-active {
+  background: var(--rust);
+  color: var(--warm-white);
+  border-color: var(--rust);
+}
+.tag-chip-active:hover { color: var(--warm-white); }
+
+.post-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+.post-card-tags .tag-chip { cursor: default; padding: 0.2rem 0.7rem; font-size: 0.72rem; }
+
+/* Like button */
+.btn-like {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-like:hover { border-color: #e8a0a0; color: #c0392b; }
+.btn-like-active { color: #c0392b; border-color: #f5c6c4; background: #fdf2f2; }
+
+/* Comments */
+.comments-section {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  margin-top: 1.5rem;
+}
+.comments-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.comment-form { margin-bottom: 1.5rem; }
+.comment-input { min-height: 80px; }
+.comments-empty { color: var(--ink-muted); font-size: 0.9rem; }
+
+.comments-list { display: flex; flex-direction: column; gap: 1.2rem; }
+.comment-item {
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+.comment-item:last-child { border-bottom: none; padding-bottom: 0; }
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.4rem;
+}
+.comment-author { font-weight: 600; color: var(--ink-light); font-size: 0.875rem; }
+.comment-date { color: var(--ink-muted); font-size: 0.78rem; }
+.comment-delete {
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  color: var(--ink-muted);
+  border-color: transparent;
+}
+.comment-delete:hover { color: #c0392b; background: #fdf2f2; border-color: #f5c6c4; }
+.comment-content { color: var(--ink-light); font-size: 0.9rem; line-height: 1.6; white-space: pre-wrap; }

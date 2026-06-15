@@ -5,6 +5,7 @@ import { useAuth } from '../App';
 
 export default function PostForm({ edit = false }) {
   const [form, setForm] = useState({ title: '', content: '' });
+  const [tagsInput, setTagsInput] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
@@ -20,6 +21,7 @@ export default function PostForm({ edit = false }) {
             return;
           }
           setForm({ title: res.data.title, content: res.data.content });
+          setTagsInput((res.data.tags || []).join(', '));
         })
         .catch(() => navigate('/'));
     }
@@ -31,13 +33,15 @@ export default function PostForm({ edit = false }) {
     e.preventDefault();
     setError('');
     setLoading(true);
+    const tags = tagsInput.split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
     try {
       if (edit) {
-        await api.put(`/api/posts/${id}`, { ...form, userId: user.id });
+        await api.put(`/api/posts/${id}`, { ...form, tags, userId: user.id });
         navigate(`/posts/${id}`);
       } else {
         const res = await api.post('/api/posts', {
           ...form,
+          tags,
           authorId: user.id,
           authorName: user.username,
         });
@@ -84,6 +88,16 @@ export default function PostForm({ edit = false }) {
               placeholder="Write your post here…"
               rows={10}
               required
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Tags</label>
+            <input
+              className="form-input"
+              type="text"
+              value={tagsInput}
+              onChange={(e) => setTagsInput(e.target.value)}
+              placeholder="e.g. travel, food, tech (comma separated)"
             />
           </div>
           <div className="form-actions">
