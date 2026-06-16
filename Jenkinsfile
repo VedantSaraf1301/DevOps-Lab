@@ -26,7 +26,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonarqube') {
                     bat "%SCANNER_HOME%\\bin\\sonar-scanner.bat -Dsonar.projectKey=inkwell-blog -Dsonar.sources=client/src,server -Dsonar.projectName=InkwellBlog"
-                }
+                }   
             }
         }
 
